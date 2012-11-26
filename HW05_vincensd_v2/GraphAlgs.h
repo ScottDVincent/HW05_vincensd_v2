@@ -17,7 +17,11 @@
  *
  * Preconditions: 
  *     G is undirected.
- *     Every pair of nodes u,v  (u != v) has an edge connecting the of weight > 0.
+ *     Every pair of nodes u,v  (u != v) has an edge connecting them, with weight > 0.
  */
 
 std::pair<std::vector<NodeID>, EdgeWeight> TSP(Graph* G);
+
+void tour(int* arr, int n, int StartingPlace);
+
+//void swap (int StartingPlace, int i);

@@ -1,21 +1,37 @@
 // listGraph.h
 
-#include <vector>
+
 #include "Graph.h"
+
+//c++ includes
+#include <iostream>
+#include <algorithm>
+#include <functional>
+#include <ctime>
+#include <cstdlib>
+#include <string>
+#include <list>
+#include <vector>
+
+//using
+using namespace std;
 
 #pragma once
 
-typedef std::list<NWPair> EList;
+typedef std::list<NWPair> EList;			//http://www.cplusplus.com/reference/list/list/
 
 class ListGraph : public Graph {
  public:
-  ListGraph(int numNodes);
+  ListGraph(int numNodes);					//input = number of verticies
   ~ListGraph();
 
   // Modifiers
   virtual void addEdge(NodeID u, NodeID v, EdgeWeight weight);
   
   // Inspectors
+  // http://duramecho.com/ComputerInformation/WhyHowCppConst.html
+  // http://www.cprogramming.com/tutorial/const_correctness.html
+
   virtual EdgeWeight weight(NodeID u, NodeID v) const;
   virtual std::list<NWPair> getAdj(NodeID u) const;
   virtual unsigned degree(NodeID u) const;
@@ -25,6 +41,6 @@ class ListGraph : public Graph {
  private:
   ListGraph() {;}
 
-  std::vector<EList> edgeList;
+  std::vector<EList> edgeList;				//http://www.cplusplus.com/reference/vector/vector/
   int num_edges;
 };
