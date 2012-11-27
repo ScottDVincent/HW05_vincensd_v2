@@ -31,14 +31,14 @@ using namespace std;
 
 //MEMBER VARIABLES
 //int* bestTour;
-//float BestTourDistance;
+//double BestTourDistance;
 //std::pair<std::vector<NodeID>, EdgeWeight> solution;
 //return solution;
 
 std::pair<std::vector<NodeID>, EdgeWeight> TSP(Graph* G); //TSP is var name for the pair
 
 //Graph::Graph() {
-//}	// end Graph constructor ?? do I need a constructor for this
+//}	// end Graph constructor ?? do I need a constructor for this ~> prolly not
 
 		
 

@@ -40,6 +40,6 @@ class MatrixGraph : public Graph {
  private:
  MatrixGraph() {;}
 
-  std::vector<std::vector<EdgeWeight> > M;  // M(atrix) = vector of vectors
+  std::vector<std::vector<EdgeWeight> > M;  // M(atrix) = vec of vects : holds EdgeWeight
   int num_edges;
 };

@@ -45,6 +45,7 @@ ListGraph::ListGraph(int numNodes){
 	num_edges = 0;
 
 	//strategy
+	//Preconditions:
 	// create a list var
 	// loop through numNodes and add to list
 	
@@ -57,8 +58,9 @@ ListGraph::ListGraph(int numNodes){
 ListGraph::~ListGraph(){
 
 	//strategy
-	// loop through and remove from list
-	
+		for(int i = 0; i < edgeList.size(); i++){
+		edgeList.pop_back();					// remove items from list
+	}	
 } // end list destroctor
 
 
@@ -73,7 +75,7 @@ ListGraph::~ListGraph(){
 void ListGraph::addEdge(NodeID u, NodeID v, EdgeWeight weight){
 
 	// strategy
-	// check and see if points are valid matrix points
+	// //Preconditions:check and see if points are valid matrix points
 	// check and see if  points are duplicates (tho I guess we could overwrite them if they are)
 	// if so, then bail out
 	// if not add the edge 
@@ -98,11 +100,14 @@ void ListGraph::addEdge(NodeID u, NodeID v, EdgeWeight weight){
 EdgeWeight ListGraph::weight(NodeID u, NodeID v) const{
 	
 	//strategy
-	//check to see if points are in matrix,
-	// if so then somehow iterate through list, see book, and 
-	// and return an EDGEweight:  double EdgeWeight;
+	//Preconditions: check to see if points are in matrix,
+	if(u >= 0 && u < edgeList.size() && v >= 0 && v < edgeList.size()){	// if our nodes are valid
+	
+		// if so then somehow iterate through list, see book, and 
+		// and return an EDGEweight:  double EdgeWeight;
 	// else
-	//return 0
+	return 0;
+	}
 
 } 
 
@@ -117,8 +122,11 @@ EdgeWeight ListGraph::weight(NodeID u, NodeID v) const{
 */
 std::list<NWPair> ListGraph::getAdj(NodeID u) const{
 	// strategy
+	// Preconditions: u is a legal label.
 	// not sure yet
+	// one thought, adj are those which are in the same list, return the list at u (the index)
 }
+
 
 
 /**
@@ -129,12 +137,15 @@ std::list<NWPair> ListGraph::getAdj(NodeID u) const{
 */	
 unsigned ListGraph::degree(NodeID u) const{
 	// strategy
-	// seems like I should send to getAdj(u);
+	if(u >= 0 && u < edgeList.size()){		//check bounds to see if u is in list
+		return getAdj(u).size();			// call getAdj
+	}
 }
 
 /**
 * size()
 * Returns number of nodes in the graph
+* edgeList is our private var list, use it's size()
 * @return: unsigned
 */
 unsigned ListGraph::size() const{
