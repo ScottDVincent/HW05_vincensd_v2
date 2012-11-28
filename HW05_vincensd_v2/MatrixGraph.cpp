@@ -16,20 +16,6 @@
 //my includes
 #include "MatrixGraph.h"
 
-/**
-//c++ includes
-#include <iostream>
-#include <algorithm>
-#include <functional>
-#include <vector>
-#include <ctime>
-#include <cstdlib>
-#include <string>
-
-//using
-using namespace std;
-*/
-
 
 /**
 * argument constructor
@@ -41,18 +27,25 @@ MatrixGraph::MatrixGraph(unsigned num_nodes) {
 	// strategy
 	// have to create a vector of vectors, vertice by vertice w/ inital edgeWeight = 0
 	// do a double nested loop to create 2xVector
+	
 	//? what holds our weight values tho ? maybe another list or vector?
 	// hmmm... vector of vectors for matrix and a vector which holds weights? that's what the book shows, oh man, that's confusing!
+	// http://stackoverflow.com/questions/4320085/vector-of-vector-initialization
+	// http://stackoverflow.com/questions/6491251/multi-dimensional-vector-initialization?rq=1
+
 
 	//row: u
+	M.resize(num_nodes);						//resize row
 	for (int i=0; i < num_nodes; i++){
 		 //an EdgeWeight is the variable
-				 
 		 //column: v
+		 M.resize(num_nodes);					// resize column (debugger shows it does what I think it will)
 		 for(int j = 0; j < num_nodes; j++){
-		     // put in weight of 0
-			 //doesn't work M[i].assign(weight);			// try different vector method
-			 M.at(j).push_back(0);
+			 
+			 //http://www.cplusplus.com/forum/general/69543/
+		     // put in a default weight of 0
+			 // doesn't work: M[i].assign(weight);			// try different vector method
+			  M.at(i).push_back(0);							// add default of '0' (actually puts in 0.0) 
 
 	 }  // end v
 	}   // end u
@@ -66,9 +59,10 @@ MatrixGraph::MatrixGraph(unsigned num_nodes) {
 *destructor to clean up Vector M
 */
 MatrixGraph::~MatrixGraph(){
-	for(int i = 0; i < M.size(); i++){
-		M.at(i).pop_back();				//remove EdgeWeights from matrix: Delete last element
-	}
+	// didn't really need it
+	// ceratinly don't want to just call 'delete', would cause memory err since we didn't create it
+	// "if you didn't build it, don't break it"
+
 }
 
 	 
@@ -82,14 +76,14 @@ MatrixGraph::~MatrixGraph(){
 */
 void MatrixGraph::addEdge(NodeID u, NodeID v, EdgeWeight weight){
 	
+	// need to test for duplicates ?? it would just overwrite it if true... hmm..
+
 	//Preconditions:
 	// test to see if this is an actual location, if u&v are unique and if the weight we are passing in != 0
 	if(u >= 0 && u < M.size() && v >= 0 && v < M.size() && u!= v && M.at(u).at(v) == 0 && M.at(v).at(u) == 0 && weight > 0){ 
 	
-		// need to test for duplicates ?? it would just overwrite it if true... hmm..
-
 		// add weights to cells ~ seems like this would work, or something like it
-		//double vector syntax: two vector.at().at()
+		// vector-in-vector syntax:  vector_name.at().at(), I should be thankful it's not a 3d matrix
 		//http://www.cplusplus.com/forum/general/49608/
 		//http://stackoverflow.com/questions/2207009/reference-to-element-in-2d-vector-c
 		M.at(u).at(v) = weight;  // add weight to cell u/v
@@ -114,7 +108,7 @@ EdgeWeight MatrixGraph::weight(NodeID u, NodeID v) const{
 	// strategy
 	//Preconditions: check if u & v are valid
 	if(u >= 0 && u < M.size() && v >= 0 && v < M.size()){	// check to see if u,v are in the matrix 
-		return M.at(u).at(v);								// if so return weight of at[u] at[v]
+		return M.at(u).at(v);								// if so, return weight of at[u] at[v]
 	}
 	else
 		return 0;											// else return 0		
@@ -133,12 +127,12 @@ std::list<NWPair> MatrixGraph::getAdj(NodeID u) const{
 	//strategy
 	//Preconditions: check and see if u is a valid node in matrix
 	// I think create a pair var to hold adj Nodes -- that's what I'm returning
-
+	std::list<NWPair> ret;
 	// hmmm... have to loop thru areas around u to see what's adj
 	// should I do a nested loop like convo filter (3x3)?
 	// well, if an adj has a value (!=0) then put node/weight into new pair var
 
-
+	return ret;
 }
    
 /**
@@ -151,7 +145,8 @@ unsigned MatrixGraph::degree(NodeID u) const {
 	
 	//Preconditions: check and see if u is in matrix
 	if(u >= 0 && u < M.size()){
-		//return something related to getAdj, some unsigned value
+		//return something related to getAdj, some unsigned value, prolly the size of the list
+		return 0;
 	}
   }
 
@@ -160,11 +155,13 @@ unsigned MatrixGraph::degree(NodeID u) const {
 * size()
 * Returns number of nodes in the graph
 * ? not sure if size() will give the correct size, it may be size()*size()
+* yes, the toal size is s()*s() but...
+* no, in that if I do s()*s() then test 8 fails
 * @return: unsigned
 */
 unsigned MatrixGraph::size() const{
 	return M.size();
-	}
+}
 
 
 /**

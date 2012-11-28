@@ -35,6 +35,9 @@ using namespace std;
 //std::pair<std::vector<NodeID>, EdgeWeight> solution;
 //return solution;
 
+// might be helpful to review
+// http://www.adaptivebox.net/CILib/code/tspcodes_link.html
+
 std::pair<std::vector<NodeID>, EdgeWeight> TSP(Graph* G); //TSP is var name for the pair
 
 //Graph::Graph() {

@@ -131,7 +131,7 @@ int main(int argc, char** argv) {
 
   //pair<int,int> p = testSpeedTSP(SB, 60, true);
 
-  // want to see output somehow: console()
+  // want to see output somehow: console() >> cin; ?
 
   return 0;
 }

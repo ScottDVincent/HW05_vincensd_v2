@@ -16,28 +16,17 @@
 //my includes
 #include "ListGraph.h"
 
-//c++ includes
-#include <iostream>
-#include <algorithm>
-#include <functional>
-#include <vector>
-#include <ctime>
-#include <cstdlib>
-#include <string>
-
-//using
-using namespace std;
-
 
 /**
 //http://opendatastructures.org/versions/edition-0.1e/ods-java/12_2_AdjacencyLists_Graph_a.html
-//default list graph: have to create a vector of lists, index = node of (adj vertex & edge weight)t
+	// not particularly helpful
 */
-
 
 
 /**
 * argument constructor
+* default list graph: have to create a vector of lists, index = node of (adj vertex & edge weight)
+* 
 */
 ListGraph::ListGraph(int numNodes){
 	
@@ -46,6 +35,7 @@ ListGraph::ListGraph(int numNodes){
 
 	//strategy
 	//Preconditions:
+
 	// create a list var
 	// loop through numNodes and add to list
 	
@@ -57,11 +47,11 @@ ListGraph::ListGraph(int numNodes){
 */
 ListGraph::~ListGraph(){
 
-	//strategy
-		for(int i = 0; i < edgeList.size(); i++){
-		edgeList.pop_back();					// remove items from list
-	}	
-} // end list destroctor
+	// didn't really need it
+	// ceratinly don't want to call 'delete', would cause memory err since we didn't create it
+	// "if you didn't build it, don't break it"
+
+}   // end list destroctor
 
 
 /**
@@ -76,7 +66,11 @@ void ListGraph::addEdge(NodeID u, NodeID v, EdgeWeight weight){
 
 	// strategy
 	// //Preconditions:check and see if points are valid matrix points
+
 	// check and see if  points are duplicates (tho I guess we could overwrite them if they are)
+		// wait, no, it would just add additionally to the list so test for duplicates!
+		// can overwrite in the Matrix however
+
 	// if so, then bail out
 	// if not add the edge 
 	// increment edge counter
@@ -103,10 +97,12 @@ EdgeWeight ListGraph::weight(NodeID u, NodeID v) const{
 	//Preconditions: check to see if points are in matrix,
 	if(u >= 0 && u < edgeList.size() && v >= 0 && v < edgeList.size()){	// if our nodes are valid
 	
+		return 1.0;
+
 		// if so then somehow iterate through list, see book, and 
 		// and return an EDGEweight:  double EdgeWeight;
-	// else
-	return 0;
+	 } else {
+		return 0;
 	}
 
 } 
@@ -121,10 +117,14 @@ EdgeWeight ListGraph::weight(NodeID u, NodeID v) const{
 * @return: 
 */
 std::list<NWPair> ListGraph::getAdj(NodeID u) const{
-	// strategy
+	
 	// Preconditions: u is a legal label.
-	// not sure yet
-	// one thought, adj are those which are in the same list, return the list at u (the index)
+	if (u>=0 && u < edgeList.size() ){
+	  // one thought, adj are those which are in the same list, return the list at u (the index),  
+	  // yep, thats the idea from class but says this way is easier to debug
+		std::list<NWPair> ret = edgeList.at(u);
+		return ret;
+	}
 }
 
 
@@ -136,9 +136,11 @@ std::list<NWPair> ListGraph::getAdj(NodeID u) const{
 * @return: unsigned
 */	
 unsigned ListGraph::degree(NodeID u) const{
-	// strategy
+	
+	//precondition
 	if(u >= 0 && u < edgeList.size()){		//check bounds to see if u is in list
-		return getAdj(u).size();			// call getAdj
+		return getAdj(u).size();			// call getAdj, to access the list at u.
+											// it's size() is the number of items in the adjList
 	}
 }
 
