@@ -44,13 +44,20 @@ std::pair<std::vector<NodeID>, EdgeWeight> TSP(Graph* G); //TSP is var name for 
 //}	// end Graph constructor ?? do I need a constructor for this ~> prolly not
 
 		
+/**
+*tour ()
+*@param int* arr
+*@param int n
+*@param int StartingPlace
+* returns void
+*/
 
-// put in Tour() code here
+// ?? what about Dykstras shorest path algorithm ??
 /**
 	void tour(int* arr, int n, int StartingPlace) {
-		int  bestDistance;						// set to something arbitrary
+		int  bestDistance;							// set to something arbitrary
 
-			if (n-StartingPlace == 1) {			// base case
+			if (n-StartingPlace == 1) {				// base case
 
 				//BestVec<> =						// keep that last path;	
 			
@@ -59,9 +66,9 @@ std::pair<std::vector<NodeID>, EdgeWeight> TSP(Graph* G); //TSP is var name for 
 						 return;
 					} else if (check to see something){
 						for ( i = StartingPlace, i <= n; i++){
-						swap (StartingPlace, i);		 //swap poistion so that all columns to the right of i are called in this algo and are checked.
-						tour (arr, n ,StartingPlace +1); // do the recursive call and move Staritng Place up one column
-						swap (StartingPlace, i);		// be sure and swap our elements back so that the new, updated starting place will be recursilly call correctly
+						swap (StartingPlace, i);			//swap poistion so that all columns to the right of i are called in this algo and are checked.
+						tour (arr, n ,StartingPlace +1);	// do the recursive call and move Staritng Place up one column
+						swap (StartingPlace, i);			// be sure and swap our elements back so that the new, updated starting place will be recursilly call correctly
 						} //end for
 
 
@@ -69,6 +76,13 @@ std::pair<std::vector<NodeID>, EdgeWeight> TSP(Graph* G); //TSP is var name for 
 */
 
 /**
+* swap()
+* @param int Starting Place
+* @param int i
+* swaps the values of i and StartingPlace)
+* return void
+*/
+
 void swap (int StartingPlace, int i){
 		int temp;
 		temp = StartingPlace;
@@ -79,7 +93,7 @@ void swap (int StartingPlace, int i){
 
 
 /**
-* this may not actually do anything
+* this may not actually do anything, not sure what I'm thinking
 
 TSP(Graph* G) {
 	return solution;

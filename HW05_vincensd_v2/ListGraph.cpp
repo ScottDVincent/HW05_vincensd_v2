@@ -19,25 +19,26 @@
 
 /**
 //http://opendatastructures.org/versions/edition-0.1e/ods-java/12_2_AdjacencyLists_Graph_a.html
-	// not particularly helpful
+//somewhat helpful for strategy, not for code
 */
 
 
 /**
 * argument constructor
 * default list graph: have to create a vector of lists, index = node of (adj vertex & edge weight)
-* 
 */
 ListGraph::ListGraph(int numNodes){
 	
 	//initalize private vars
 	num_edges = 0;
 
-	//strategy
 	//Preconditions:
-
-	// create a list var
-	// loop through numNodes and add to list
+	if (numNodes > 0 ){
+	// loop through numNodes and add our Elist
+		for(int i = 0; i < numNodes; i++){
+			edgeList.push_back(EList(NULL));	// make the Elist item, which is a list remember, null
+		}
+	} // end if
 	
 } // end ListGraph constructor
 
@@ -51,7 +52,7 @@ ListGraph::~ListGraph(){
 	// ceratinly don't want to call 'delete', would cause memory err since we didn't create it
 	// "if you didn't build it, don't break it"
 
-}   // end list destroctor
+}   // end list destructor
 
 
 /**
@@ -65,19 +66,33 @@ ListGraph::~ListGraph(){
 void ListGraph::addEdge(NodeID u, NodeID v, EdgeWeight weight){
 
 	// strategy
-	// //Preconditions:check and see if points are valid matrix points
-
-	// check and see if  points are duplicates (tho I guess we could overwrite them if they are)
+	// check for duplicates in List, because they would add to the tail, unlike Matrix (which gets overwritten)
+	bool duplicate = false;
+	//Preconditions:check and see if points are valid matrix points
+	if(u >= 0 && u < edgeList.size() && v >= 0 && v < edgeList.size() && u!= v && weight > 0){
+	
+		// check and see if  points are duplicates (tho I guess we could overwrite them if they are)
 		// wait, no, it would just add additionally to the list so test for duplicates!
 		// can overwrite in the Matrix however
+		// have to iterate thru edgeList
+		EList::const_iterator iter;
+		for(iter = edgeList.at(u).begin(); iter !=edgeList.at(u).end(); iter++){
+			NWPair tPair = (*iter);							// it's it is not a pointer, an overloaded method which pretends to be derefferencing
+			if (tPair.first == v &&  tPair.second == weight){	
+				duplicate = true;							// if so, then bail out					
+			 } // end if
+			}  // end for
 
-	// if so, then bail out
-	// if not add the edge 
-	// increment edge counter
-
-
-	
+	if (!duplicate){	
+		// if not a duplicate: add weight
+		edgeList.at(u).push_back(NWPair(v,weight)); // have to add weight to u's list
+		edgeList.at(v).push_back(NWPair(u,weight)); // have to add weight to v's list 
+		num_edges++;								// increase num_edges
+	}
+  }
 }  // end addEdge
+
+
 
 
 //////////////// IDENTIFIERS //////////////////////	
@@ -93,20 +108,23 @@ void ListGraph::addEdge(NodeID u, NodeID v, EdgeWeight weight){
 /** */
 EdgeWeight ListGraph::weight(NodeID u, NodeID v) const{
 	
-	//strategy
 	//Preconditions: check to see if points are in matrix,
 	if(u >= 0 && u < edgeList.size() && v >= 0 && v < edgeList.size()){	// if our nodes are valid
-	
-		return 1.0;
-
-		// if so then somehow iterate through list, see book, and 
-		// and return an EDGEweight:  double EdgeWeight;
-	 } else {
+		
+		// if so then somehow iterate through list, ==> from class notes 
+		// and return an EdgeWeight:  double EdgeWeight;
+		
+		EList::const_iterator iter;
+		for(iter = edgeList.at(u).begin(); iter !=edgeList.at(u).end(); iter++){
+			NWPair tPair = (*iter);							// it's it is not a pointer, an overloaded method which pretends to be derefferencing
+			if (tPair.first == v) {							// if the first of the pair, NODEid = v
+				return tPair.second;						// return weight
+			 }
+			}	
 		return 0;
-	}
+	} // end if
 
-} 
-
+}	  // end weight
 
 
 
@@ -119,9 +137,9 @@ EdgeWeight ListGraph::weight(NodeID u, NodeID v) const{
 std::list<NWPair> ListGraph::getAdj(NodeID u) const{
 	
 	// Preconditions: u is a legal label.
-	if (u>=0 && u < edgeList.size() ){
-	  // one thought, adj are those which are in the same list, return the list at u (the index),  
-	  // yep, thats the idea from class but says this way is easier to debug
+	if (u >= 0 && u < edgeList.size() ){
+		// one thought, adj are those which are in the same list, return the list at u (the index),  
+		// yep, thats the idea from class but BO says this way is easier to debug
 		std::list<NWPair> ret = edgeList.at(u);
 		return ret;
 	}

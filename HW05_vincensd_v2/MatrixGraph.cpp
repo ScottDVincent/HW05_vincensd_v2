@@ -19,6 +19,8 @@
 
 /**
 * argument constructor
+//http://opendatastructures.org/versions/edition-0.1e/ods-java/12_1_AdjacencyMatrix_Repres.html	
+// interesting, idea of List being in a Matric, might be handy with std::list<NWPair>
 */
 MatrixGraph::MatrixGraph(unsigned num_nodes) {
 	//initalize private vars
@@ -52,8 +54,8 @@ MatrixGraph::MatrixGraph(unsigned num_nodes) {
 
 } // end Matrix Graph constructor
 
-//http://opendatastructures.org/versions/edition-0.1e/ods-java/12_1_AdjacencyMatrix_Repres.html	
-//http://thecodecracker.com/c-programming/addition-and-deletion-of-nodes-and-edges-in-a-graph/
+
+
 	
 /**
 *destructor to clean up Vector M
@@ -72,11 +74,12 @@ MatrixGraph::~MatrixGraph(){
 * @param: NodeID v
 * @param: EdgeWeight weight
 * Adds a weighted edge between nodes u and v with the given weight
+//http://thecodecracker.com/c-programming/addition-and-deletion-of-nodes-and-edges-in-a-graph/
 * @return: void
 */
 void MatrixGraph::addEdge(NodeID u, NodeID v, EdgeWeight weight){
 	
-	// need to test for duplicates ?? it would just overwrite it if true... hmm..
+	// need to test for duplicates ?? it would just overwrite it if true... only in List
 
 	//Preconditions:
 	// test to see if this is an actual location, if u&v are unique and if the weight we are passing in != 0
@@ -111,8 +114,7 @@ EdgeWeight MatrixGraph::weight(NodeID u, NodeID v) const{
 		return M.at(u).at(v);								// if so, return weight of at[u] at[v]
 	}
 	else
-		return 0;											// else return 0		
-					
+		return 0;											// else return 0						
 }
 
 /**
@@ -126,14 +128,26 @@ std::list<NWPair> MatrixGraph::getAdj(NodeID u) const{
 		
 	//strategy
 	//Preconditions: check and see if u is a valid node in matrix
+	if(u >= 0 && u < M.size()){								// U has to be between 0 and the end of the list
+	
 	// I think create a pair var to hold adj Nodes -- that's what I'm returning
-	std::list<NWPair> ret;
+	// should it be new? should it have a pointer?
+	std::list<NWPair> nei; // a list of the neighbors
+	
 	// hmmm... have to loop thru areas around u to see what's adj
 	// should I do a nested loop like convo filter (3x3)?
-	// well, if an adj has a value (!=0) then put node/weight into new pair var
+	// use const_iterator in here?
 
-	return ret;
-}
+	
+	// if it's around u then add  a new NWPair (call it 'home') to nei list 	
+	// well, if an adj has a value (!=0) then put (node/weight) into new nei list
+	// and return nei list
+	
+
+	return nei;
+			
+	} // end if
+} 
    
 /**
 * degree
@@ -145,8 +159,8 @@ unsigned MatrixGraph::degree(NodeID u) const {
 	
 	//Preconditions: check and see if u is in matrix
 	if(u >= 0 && u < M.size()){
-		//return something related to getAdj, some unsigned value, prolly the size of the list
-		return 0;
+		return 0;					// stub compile code
+		//return getAdj(u).size();	// return something related to getAdj, some unsigned value, prolly the size of the list
 	}
   }
 

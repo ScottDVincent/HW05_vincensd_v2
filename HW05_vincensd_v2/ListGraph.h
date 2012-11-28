@@ -42,7 +42,10 @@ class ListGraph : public Graph {
   ListGraph() {;}
 
   std::vector<EList> edgeList;				//http://www.cplusplus.com/reference/vector/vector/
-											// a vector, in which each item is an EList, 
-											// which is a NWPair (can use first, second) on it.
+											// a vector, in which each item is an EList,
+											// which in turn is a std::List,
+											// which holds a NWPair (can use first, second) on it.
+											// That's deep!
+											// gonna have to use NWPair to add (node,weight) in addEdge
   int num_edges;
 };
