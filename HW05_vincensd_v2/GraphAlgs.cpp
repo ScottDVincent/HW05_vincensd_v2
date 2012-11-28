@@ -53,27 +53,39 @@ std::pair<std::vector<NodeID>, EdgeWeight> TSP(Graph* G); //TSP is var name for 
 */
 
 // ?? what about Dykstras shorest path algorithm ??
-/**
+/** 
 	void tour(int* arr, int n, int StartingPlace) {
+		
+
+		/**Dijkstra's idea: from c++: p443, but it's not really compatible w/ tour
+		3 vectors
+		int distance [MAX_DISTANCE_SIZE];
+		int path[MAX_PATH_SIZE];
+		vector<bool> included(MAX_INCLUDED_PATH);
+		
+
+		int distance;								// set to 0
 		int  bestDistance;							// set to something arbitrary
+		// vector to hold our 
 
 			if (n-StartingPlace == 1) {				// base case
 
 				//BestVec<> =						// keep that last path;	
 			
 					if (distance < bestDistance){
-						 bestDistance = distance;// save new bestDistance
+						 bestDistance == distance;// save new bestDistance
 						 return;
-					} else if (check to see something){
-						for ( i = StartingPlace, i <= n; i++){
+					} else { // (check to see something){
+						for ( int i = StartingPlace; i <= n; i++){
 						swap (StartingPlace, i);			//swap poistion so that all columns to the right of i are called in this algo and are checked.
-						tour (arr, n ,StartingPlace +1);	// do the recursive call and move Staritng Place up one column
+						tour (arr, n, StartingPlace +1);	// do the recursive call and move Staritng Place up one column
 						swap (StartingPlace, i);			// be sure and swap our elements back so that the new, updated starting place will be recursilly call correctly
 						} //end for
 
 
 	} // end tour
-*/
+
+	*/
 
 /**
 * swap()
@@ -81,7 +93,7 @@ std::pair<std::vector<NodeID>, EdgeWeight> TSP(Graph* G); //TSP is var name for 
 * @param int i
 * swaps the values of i and StartingPlace)
 * return void
-*/
+
 
 void swap (int StartingPlace, int i){
 		int temp;
@@ -90,7 +102,7 @@ void swap (int StartingPlace, int i){
 		i = StartingPlace;
 
  } // end swap
-
+*/
 
 /**
 * this may not actually do anything, not sure what I'm thinking

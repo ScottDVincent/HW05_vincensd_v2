@@ -131,21 +131,31 @@ std::list<NWPair> MatrixGraph::getAdj(NodeID u) const{
 	if(u >= 0 && u < M.size()){								// U has to be between 0 and the end of the list
 	
 	// I think create a pair var to hold adj Nodes -- that's what I'm returning
-	// should it be new? should it have a pointer?
-	std::list<NWPair> nei; // a list of the neighbors
-	
+	// should it be new? should it have a pointer? => yep, else won't compile
+	//std::list<NWPair>* nei = new std::list<NWPair>; // a list of the neighbors
+	// Wait, just use EList, since it's already declared?
+	std::list<NWPair> EList;
+
 	// hmmm... have to loop thru areas around u to see what's adj
-	// should I do a nested loop like convo filter (3x3)?
-	// use const_iterator in here?
+	// should I do a nested loop like convo filter (3x3)? ==> no, I think we just want the list of v's associated with the u which is passed it
+	// use const_iterator in here? ==> maybe, try a for loop 1st
+	// is going to go across this row and add each item to
+	for (int i=0; i < M.at(u).size(); i++){				// loop thru the u row
 
-	
-	// if it's around u then add  a new NWPair (call it 'home') to nei list 	
-	// well, if an adj has a value (!=0) then put (node/weight) into new nei list
+		// add a new NWPair (call it 'aNode') to nei list 
+		// 'new' isn't right, don't create a new object // just create a new var
+		NWPair aNode (i, M.at(u).at(i));				// declare pair 'aNode' (node we're at, the EdgeWeight at that cell)
+		
+		// well, if an adj has a value (i.e. a weight !=0) then put (node/weight) into new nei list
+		if(aNode.second != 0) 
+			//nei -> push_back(aNode);					// put current pair in back of neighbors list
+			EList.push_back(aNode);
+	} // end for
+
 	// and return nei list
-	
-
-	return nei;
-			
+	//return *nei;
+	 return EList;
+		
 	} // end if
 } 
    
@@ -169,7 +179,7 @@ unsigned MatrixGraph::degree(NodeID u) const {
 * size()
 * Returns number of nodes in the graph
 * ? not sure if size() will give the correct size, it may be size()*size()
-* yes, the toal size is s()*s() but...
+* yes, the total size is s()*s() but...
 * no, in that if I do s()*s() then test 8 fails
 * @return: unsigned
 */
