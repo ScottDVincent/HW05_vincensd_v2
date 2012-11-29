@@ -61,10 +61,7 @@ MatrixGraph::MatrixGraph(unsigned num_nodes) {
 *destructor to clean up Vector M
 */
 MatrixGraph::~MatrixGraph(){
-	// didn't really need it
 	// ceratinly don't want to just call 'delete', would cause memory err since we didn't create it
-	// "if you didn't build it, don't break it"
-
 }
 
 	 
@@ -128,7 +125,7 @@ std::list<NWPair> MatrixGraph::getAdj(NodeID u) const{
 		
 	//strategy
 	//Preconditions: check and see if u is a valid node in matrix
-	if(u >= 0 && u < M.size()){								// U has to be between 0 and the end of the list
+	if(u >= 0 && u < M.size()){							// U has to be between 0 and the end of the list
 	
 	// I think create a pair var to hold adj Nodes -- that's what I'm returning
 	// should it be new? should it have a pointer? => yep, else won't compile

@@ -31,32 +31,56 @@ using namespace std;
 
 //MEMBER VARIABLES
 //int* bestTour;
-//double BestTourDistance;
-//std::pair<std::vector<NodeID>, EdgeWeight> solution;
+double bestDistance;									// our EdgeWeight, type is double in Graph.h
+std::vector<NodeID> bestTourVec;						// save a vector of best tour route
+std::pair<std::vector<NodeID>, EdgeWeight> solution;	// return var
 
 
 // might be helpful to review
 // http://www.adaptivebox.net/CILib/code/tspcodes_link.html
 // nope, way over my head
 
-/**
-GraphAlgs::GraphAlgs() {
-
-}	// end Graph constructor 
-?? do I need a constructor for this ~> prolly not
-*/
-
-
-std::pair<std::vector<NodeID>, EdgeWeight> TSP(Graph* G); 
-
-
 // ?? what about Dykstras shorest path algorithm ??
-	/**Dijkstra's idea: from c++: p443, but it's not really compatible w/ tour
+/**Dijkstra's idea: from c++: p443, but it's not really compatible w/ tour
 		3 vectors:
 		int distance [MAX_DISTANCE_SIZE];
 		int path [MAX_PATH_SIZE];
 		vector<bool> included(MAX_INCLUDED_PATH);
+*/
+
+
+/**
+*TSP()
+*@param (Graph* G)
+*@return: std::pair<std::vector<NodeID>, EdgeWeight>
+* returns a pair (vector with bestTour in NodeID order ,and, the distance of that tour (as EdgeWeight))
+*/
+std::pair<std::vector<NodeID>, EdgeWeight> TSP(Graph* G) {
+	
+	/**strategy
+	//
+	*/
+	//loop through and send graph to tour
+	for (int* i = M.at(i).begin(); i < M.at(i).end(); i++){
 		
+		//call tour: (int* arr, int n, int StartingPlace, Graph* g)
+		//			( our 'u' row, n= m.size(), SP = 0, g)
+		tour(i,  M.at(i).size(), 0, G);
+
+	} //end for
+ 
+		// update our return var
+		//std::pair<std::vector<NodeID>, EdgeWeight> solution;
+		solution.first = (bestTourVec);
+		solution.second = (bestDistance);
+		return solution;
+
+} // end TSP
+
+
+
+
+
 
 /**
 *tour ()
@@ -66,7 +90,7 @@ std::pair<std::vector<NodeID>, EdgeWeight> TSP(Graph* G);
 * returns void
 */
 /** 
-	void tour(int* arr, int n, int StartingPlace) {
+	void tour(int* arr, int n, int StartingPlace, Grpah* G) {
 		
 	//strategy
 	// we take in a pointer to an array, n is the length of the array,
@@ -74,15 +98,13 @@ std::pair<std::vector<NodeID>, EdgeWeight> TSP(Graph* G);
 
 		//set a default distance 
 		double distance = 0.0;					// set to 0
-		double bestDistance = 0.0;				// save our best distance so far
-
+		
 		// create vectors to hold distances
 		?? we talked about <NodeID> in class, so I'm assuming that's our vec type
 		std::vector<NodeID> curTourVec;			// contains the current tour, we'll add the weight
-		std::vector<NodeID> bestTourVec;		// save a vector of best tour route
+		
 
-
-	 	// our base case to end recusion
+		// our base case to end recusion
 		if (n-StartingPlace == 1) {				// base case
 
 		// weights are put on the stack, or put them in my vector tour
@@ -95,7 +117,7 @@ std::pair<std::vector<NodeID>, EdgeWeight> TSP(Graph* G);
 		//check our distance values					
 			if (distance < bestDistance){	// on 1st iter: dist WILL NOT be less than bestDistance (at 0)
 				 bestDistance = distance;	// save new bestDistance
-			     bestTourVec = curTourVec;	// keep that last path;
+			     bestTourVec = curTourVec;	// keep that last path tour ;
 					 ?? return;
 			
 			} else {						// (run thru list and put weights on stack)

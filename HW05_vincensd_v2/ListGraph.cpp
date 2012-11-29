@@ -47,11 +47,7 @@ ListGraph::ListGraph(int numNodes){
 // destructor: to clean up list
 */
 ListGraph::~ListGraph(){
-
-	// didn't really need it
 	// ceratinly don't want to call 'delete', would cause memory err since we didn't create it
-	// "if you didn't build it, don't break it"
-
 }   // end list destructor
 
 
