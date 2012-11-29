@@ -33,17 +33,31 @@ using namespace std;
 //int* bestTour;
 //double BestTourDistance;
 //std::pair<std::vector<NodeID>, EdgeWeight> solution;
-//return solution;
+
 
 // might be helpful to review
 // http://www.adaptivebox.net/CILib/code/tspcodes_link.html
+// nope, way over my head
 
-std::pair<std::vector<NodeID>, EdgeWeight> TSP(Graph* G); //TSP is var name for the pair
+/**
+GraphAlgs::GraphAlgs() {
 
-//Graph::Graph() {
-//}	// end Graph constructor ?? do I need a constructor for this ~> prolly not
+}	// end Graph constructor 
+?? do I need a constructor for this ~> prolly not
+*/
 
+
+std::pair<std::vector<NodeID>, EdgeWeight> TSP(Graph* G); 
+
+
+// ?? what about Dykstras shorest path algorithm ??
+	/**Dijkstra's idea: from c++: p443, but it's not really compatible w/ tour
+		3 vectors:
+		int distance [MAX_DISTANCE_SIZE];
+		int path [MAX_PATH_SIZE];
+		vector<bool> included(MAX_INCLUDED_PATH);
 		
+
 /**
 *tour ()
 *@param int* arr
@@ -51,41 +65,59 @@ std::pair<std::vector<NodeID>, EdgeWeight> TSP(Graph* G); //TSP is var name for 
 *@param int StartingPlace
 * returns void
 */
-
-// ?? what about Dykstras shorest path algorithm ??
 /** 
 	void tour(int* arr, int n, int StartingPlace) {
 		
+	//strategy
+	// we take in a pointer to an array, n is the length of the array,
+	// StartingPlace is the place it we start counting from in the array
 
-		/**Dijkstra's idea: from c++: p443, but it's not really compatible w/ tour
-		3 vectors
-		int distance [MAX_DISTANCE_SIZE];
-		int path[MAX_PATH_SIZE];
-		vector<bool> included(MAX_INCLUDED_PATH);
-		
+		//set a default distance 
+		double distance = 0.0;					// set to 0
+		double bestDistance = 0.0;				// save our best distance so far
 
-		int distance;								// set to 0
-		int  bestDistance;							// set to something arbitrary
-		// vector to hold our 
+		// create vectors to hold distances
+		?? we talked about <NodeID> in class, so I'm assuming that's our vec type
+		std::vector<NodeID> curTourVec;			// contains the current tour, we'll add the weight
+		std::vector<NodeID> bestTourVec;		// save a vector of best tour route
 
-			if (n-StartingPlace == 1) {				// base case
 
-				//BestVec<> =						// keep that last path;	
+	 	// our base case to end recusion
+		if (n-StartingPlace == 1) {				// base case
+
+		// weights are put on the stack, or put them in my vector tour
+		??	curTourVec = ordered list of route
+		// sum these values of this permutation, see if it's smaller than bestSeen
+		?? distance = sum of tour values
+		// loop thru list and add weights for sum
+		?? where do we get the weights from ==> NodeID somehow ??
+
+		//check our distance values					
+			if (distance < bestDistance){	// on 1st iter: dist WILL NOT be less than bestDistance (at 0)
+				 bestDistance = distance;	// save new bestDistance
+			     bestTourVec = curTourVec;	// keep that last path;
+					 ?? return;
 			
-					if (distance < bestDistance){
-						 bestDistance == distance;// save new bestDistance
-						 return;
-					} else { // (check to see something){
-						for ( int i = StartingPlace; i <= n; i++){
-						swap (StartingPlace, i);			//swap poistion so that all columns to the right of i are called in this algo and are checked.
-						tour (arr, n, StartingPlace +1);	// do the recursive call and move Staritng Place up one column
-						swap (StartingPlace, i);			// be sure and swap our elements back so that the new, updated starting place will be recursilly call correctly
-						} //end for
+			} else {						// (run thru list and put weights on stack)
+				
+			for (int i = StartingPlace; i <= n; i++){
+						
+				??pass by value or reference ??
+				swap (StartingPlace, i);			//swap poistion so that all columns to the right of i are 
+													// called in this algo and are checked.
+				
+				tour (arr, n, StartingPlace +1);	// do the recursive call and move Staritng Place up one column
+				
+				swap (i, StartingPlace);			// be sure and swap our elements back so that the new,
+													// updated starting place will be recursivly called correctly
+	
+			}	//end for
+		}		// end if
+	}			// end tour
+
+*/
 
 
-	} // end tour
-
-	*/
 
 /**
 * swap()
@@ -94,9 +126,10 @@ std::pair<std::vector<NodeID>, EdgeWeight> TSP(Graph* G); //TSP is var name for 
 * swaps the values of i and StartingPlace)
 * return void
 
+?? can I just use the standard c++ swap() 
 
-void swap (int StartingPlace, int i){
-		int temp;
+void swap (int* StartingPlace, int* i) {	// use pointers, see pg 442
+		int* temp;
 		temp = StartingPlace;
 		StartingPlace = i;
 		i = StartingPlace;
@@ -104,9 +137,10 @@ void swap (int StartingPlace, int i){
  } // end swap
 */
 
+
+
 /**
 * this may not actually do anything, not sure what I'm thinking
-
 TSP(Graph* G) {
 	return solution;
 }

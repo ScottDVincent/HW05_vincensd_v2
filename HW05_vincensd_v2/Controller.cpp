@@ -133,5 +133,6 @@ int main(int argc, char** argv) {
 
   // want to see output somehow: console() >> cin; ?
   system("pause");
+
   return 0;
 }

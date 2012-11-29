@@ -138,7 +138,7 @@ std::list<NWPair> MatrixGraph::getAdj(NodeID u) const{
 
 	// hmmm... have to loop thru areas around u to see what's adj
 	// should I do a nested loop like convo filter (3x3)? ==> no, I think we just want the list of v's associated with the u which is passed it
-	// use const_iterator in here? ==> maybe, try a for loop 1st
+	// use const_iterator in here? ==> maybe, try a for loop 1st, 
 	// is going to go across this row and add each item to
 	for (int i=0; i < M.at(u).size(); i++){				// loop thru the u row
 
@@ -146,7 +146,7 @@ std::list<NWPair> MatrixGraph::getAdj(NodeID u) const{
 		// 'new' isn't right, don't create a new object // just create a new var
 		NWPair aNode (i, M.at(u).at(i));				// declare pair 'aNode' (node we're at, the EdgeWeight at that cell)
 		
-		// well, if an adj has a value (i.e. a weight !=0) then put (node/weight) into new nei list
+		// well, if an adj has a value (i.e. a weight !=0) then put (node/weight) into new list
 		if(aNode.second != 0) 
 			//nei -> push_back(aNode);					// put current pair in back of neighbors list
 			EList.push_back(aNode);
@@ -169,8 +169,8 @@ unsigned MatrixGraph::degree(NodeID u) const {
 	
 	//Preconditions: check and see if u is in matrix
 	if(u >= 0 && u < M.size()){
-		return 0;					// stub compile code
-		//return getAdj(u).size();	// return something related to getAdj, some unsigned value, prolly the size of the list
+		//return 0;					// stub compile code
+		return getAdj(u).size();	// return something related to getAdj, some unsigned value, prolly the size of the list
 	}
   }
 
