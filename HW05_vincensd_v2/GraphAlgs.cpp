@@ -31,7 +31,9 @@ using namespace std;
 
 //MEMBER VARIABLES
 //int* bestTour;
+
 double bestDistance;									// our EdgeWeight, type is double in Graph.h
+std::vector<int> orderVec;
 std::vector<NodeID> bestTourVec;						// save a vector of best tour route
 std::pair<std::vector<NodeID>, EdgeWeight> solution;	// return var
 
@@ -58,16 +60,18 @@ std::pair<std::vector<NodeID>, EdgeWeight> solution;	// return var
 std::pair<std::vector<NodeID>, EdgeWeight> TSP(Graph* G) {
 	
 	/**strategy
-	//
 	*/
-	//loop through and send graph to tour
-	for (int* i = M.at(i).begin(); i < M.at(i).end(); i++){
-		
-		//call tour: (int* arr, int n, int StartingPlace, Graph* g)
-		//			( our 'u' row, n= m.size(), SP = 0, g)
-		tour(i,  M.at(i).size(), 0, G);
+	//loop through and send each row of the graph to tour = wrong
+	
+		for(int i=0; i < G->size(); i++) {
+			 orderVec.push_back(i);
+			}
 
-	} //end for
+		
+//call tour: (int* arr, int n, int StartingPlace, Graph* g)
+		tour(orderVec,  G->size(), 0, G);
+
+	//} //end for
  
 		// update our return var
 		//std::pair<std::vector<NodeID>, EdgeWeight> solution;
@@ -88,37 +92,40 @@ std::pair<std::vector<NodeID>, EdgeWeight> TSP(Graph* G) {
 *@param int n
 *@param int StartingPlace
 * returns void
+	// we take in a pointer to an array, the array is the size() of graph
+	// n is the size() of the graph,
+	// StartingPlace is the place it we start counting from in the array
+	// G is a pointer to the Graph
 */
+
 /** 
-	void tour(int* arr, int n, int StartingPlace, Grpah* G) {
+void tour(int* arr, int n, int StartingPlace, Graph* G) {
 		
 	//strategy
-	// we take in a pointer to an array, n is the length of the array,
-	// StartingPlace is the place it we start counting from in the array
-
 		//set a default distance 
 		double distance = 0.0;					// set to 0
 		
 		// create vectors to hold distances
-		?? we talked about <NodeID> in class, so I'm assuming that's our vec type
 		std::vector<NodeID> curTourVec;			// contains the current tour, we'll add the weight
 		
-
 		// our base case to end recusion
 		if (n-StartingPlace == 1) {				// base case
 
-		// weights are put on the stack, or put them in my vector tour
-		??	curTourVec = ordered list of route
+		// weights are put on the stack, or put them in my vector tour?
+		??	curTourVec = ordered list of route = EdgeList ??
+		
 		// sum these values of this permutation, see if it's smaller than bestSeen
-		?? distance = sum of tour values
+		?? where do we get the weights from ==> NodeID somehow ?? = no, graph weight->(u,v)
+		?? distance = sum of tour weights
 		// loop thru list and add weights for sum
-		?? where do we get the weights from ==> NodeID somehow ??
+			
+			distance += G->weight(u, v)  // edgeWeight between u & v
 
 		//check our distance values					
 			if (distance < bestDistance){	// on 1st iter: dist WILL NOT be less than bestDistance (at 0)
 				 bestDistance = distance;	// save new bestDistance
 			     bestTourVec = curTourVec;	// keep that last path tour ;
-					 ?? return;
+					 ?? return something; ??
 			
 			} else {						// (run thru list and put weights on stack)
 				
