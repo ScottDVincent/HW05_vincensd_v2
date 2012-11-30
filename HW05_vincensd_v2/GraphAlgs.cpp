@@ -33,7 +33,8 @@ using namespace std;
 //int* bestTour;
 
 double bestDistance;									// our EdgeWeight, type is double in Graph.h
-std::vector<int> orderVec;
+int orderArr [];
+//std::vector<int> orderVec;
 std::vector<NodeID> bestTourVec;						// save a vector of best tour route
 std::pair<std::vector<NodeID>, EdgeWeight> solution;	// return var
 
@@ -61,6 +62,7 @@ std::pair<std::vector<NodeID>, EdgeWeight> TSP(Graph* G) {
 		
 		double bestDistance;						
 		std::vector<NodeID> bestTourVec;
+		orderArr[ G->size()];
 
 	/**strategy
 	*/
@@ -68,12 +70,12 @@ std::pair<std::vector<NodeID>, EdgeWeight> TSP(Graph* G) {
 	// just make an array of the Graph size()
 	
 		for(int i=0; i < G->size(); i++) {
-			 orderVec.push_back(i);
+			 orderArr[i];
 			}
 
 		
 //call tour: (int* arr, int n, int StartingPlace, Graph* g)
-		tour(orderVec,  G->size(), 0, G);
+		tour(orderArr,  G->size(), 0, G);
 
 	//} //end for
  
@@ -102,7 +104,7 @@ std::pair<std::vector<NodeID>, EdgeWeight> TSP(Graph* G) {
 	// G is a pointer to the Graph 
 */
 
-/** 
+/** */
 void tour(int* arr, int n, int StartingPlace, Graph* G) {
 		
 	//strategy
@@ -119,24 +121,25 @@ void tour(int* arr, int n, int StartingPlace, Graph* G) {
 		// 1st
 		// weights are put on the stack, or put them in my vector tour?
 		// sum these values of this permutation, see if it's smaller than bestSeen
-		?? where do we get the weights from ==> NodeID somehow ?? = no, graph weight->(u,v)
-		?? distance = sum of tour weights
+		//?? where do we get the weights from ==> NodeID somehow ?? = no, graph weight->(u,v)
+		//?? distance = sum of tour weights
 		// loop thru list and add weights for sum
 
-		for (int i = 0, i < (n-1), i++){ 	
-			distance +=  G->weight(arr[i], arr[i+1])  // edgeWeight between u & v
+		for (int i = 0; i < (n-1); i++){ 	
+			distance +=  G->weight(arr[i], arr[i+1]);  // edgeWeight between u & v
 			}
 				
 			// or, distance += get_tour_length(G, arr);
 		
 
 		// 2nd
-		??	curTourVec = ordered list of route = EdgeList ??
 		// add node order to curTourVec
-		// node order is arr, arr is the thing being constantly updated by tour
+		// !key! node order is arr, arr is the thing being constantly updated by tour, that was my missing link in undesrtanding the recursive flow
 		
-		for (int i = 0, i < (n-1), i++){ 	
-			curTourVec.push_back.(i) = arr[i]; 
+		curTourVec.resize(0);				// clear our curTourVec in prep for adding the current tour
+
+		for (int i = 0;i < (n); i++){
+			curTourVec.push_back(arr[i]);	// write current tour
 			}
 		
 	
@@ -145,8 +148,9 @@ void tour(int* arr, int n, int StartingPlace, Graph* G) {
 		//check our distance values					
 			if (distance < bestDistance){	// on 1st iter: dist WILL NOT be less than bestDistance (at 0)
 				 bestDistance = distance;	// save new bestDistance
-				 bestTourVec = curTourVec;	// keep that last path tour ;
+				 bestTourVec = curTourVec;	// keep that last path tour ; // use assignment operator 
 				// add 
+			}
 
 		// 4th
 		// next tour is run
@@ -154,19 +158,19 @@ void tour(int* arr, int n, int StartingPlace, Graph* G) {
 
 		// 5th
 		// when do we break out of our tour ?? 
-				?? return ??
+				//?? return ?? => dont need it, we will fall out and return to TSP when all loops are complete
 			
 
 
-			} else {						// (run thru list and put weights on stack)
+			} else {								// (run thru list and put weights on stack)
 				
 			for (int i = StartingPlace; i <= n; i++){
 						
-				??pass by value or reference ??
+				//??pass by value or reference ??
 				swap (StartingPlace, i);			// swap poistion so that all columns to the right of i are 
 													// called in this algo and are checked.
 				
-				tour (arr, n, StartingPlace +1);	// do the recursive call and move Starting Place up one column
+				tour (arr, n, StartingPlace +1, G);	// do the recursive call and move Starting Place up one column
 				
 				swap (i, StartingPlace);			// be sure and swap our elements back so that the new,
 													// updated starting place will be recursivly called correctly
@@ -175,14 +179,18 @@ void tour(int* arr, int n, int StartingPlace, Graph* G) {
 		}		// end if
 	}			// end tour
 
-*/
 
 
 /**
+* get_tour_length()
+* @param Graph* G
+* @param int arr
 *
-*
+* @return EdgeWeight
 */
 EdgeWeight get_tour_length(Graph* G, int arr){
+
+	return 0;
 
 }
 
@@ -193,8 +201,8 @@ EdgeWeight get_tour_length(Graph* G, int arr){
 * @param int i
 * swaps the values of i and StartingPlace)
 * return void
-
-?? can I just use the standard c++ swap() 
+*/
+//?? can I just use the standard c++ swap() 
 
 void swap (int* StartingPlace, int* i) {	// use pointers, see pg 442
 		int* temp;
@@ -203,4 +211,3 @@ void swap (int* StartingPlace, int* i) {	// use pointers, see pg 442
 		i = StartingPlace;
 
  } // end swap
-*/
