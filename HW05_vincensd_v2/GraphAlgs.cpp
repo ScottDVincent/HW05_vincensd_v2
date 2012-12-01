@@ -33,7 +33,7 @@ using namespace std;
 //int* bestTour;
 
 double bestDistance;									// our EdgeWeight, type is double in Graph.h
-int orderArr [];
+int* orderArr[] ;
 //std::vector<int> orderVec;
 std::vector<NodeID> bestTourVec;						// save a vector of best tour route
 std::pair<std::vector<NodeID>, EdgeWeight> solution;	// return var
@@ -60,9 +60,10 @@ std::pair<std::vector<NodeID>, EdgeWeight> solution;	// return var
 */
 std::pair<std::vector<NodeID>, EdgeWeight> TSP(Graph* G) {
 		
-		double bestDistance;						
+		bestDistance = 0.0;						
 		std::vector<NodeID> bestTourVec;
-		orderArr[ G->size()];
+		orderArr[ G->size() ];
+		
 
 	/**strategy
 	*/
@@ -70,12 +71,12 @@ std::pair<std::vector<NodeID>, EdgeWeight> TSP(Graph* G) {
 	// just make an array of the Graph size()
 	
 		for(int i=0; i < G->size(); i++) {
-			 orderArr[i];
+			 *orderArr[i];
 			}
 
 		
 //call tour: (int* arr, int n, int StartingPlace, Graph* g)
-		tour(orderArr,  G->size(), 0, G);
+		tour((*orderArr),  G->size(), 0, G);
 
 	//} //end for
  
@@ -99,6 +100,7 @@ std::pair<std::vector<NodeID>, EdgeWeight> TSP(Graph* G) {
 *@param int StartingPlace
 * returns void
 	// we take in a pointer to an array, the array is the size() of graph
+	// all er are doing is changing the place of elements in the array 
 	// n is the size() of the graph,
 	// StartingPlace is the place it we start counting from in the array
 	// G is a pointer to the Graph 
@@ -127,6 +129,8 @@ void tour(int* arr, int n, int StartingPlace, Graph* G) {
 
 		for (int i = 0; i < (n-1); i++){ 	
 			distance +=  G->weight(arr[i], arr[i+1]);  // edgeWeight between u & v
+			//add end back to beginning as well
+			// distance += G->weight(arr[0], arr[n-1]); 
 			}
 				
 			// or, distance += get_tour_length(G, arr);
