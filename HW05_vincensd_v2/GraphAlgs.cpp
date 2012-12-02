@@ -30,11 +30,8 @@ using namespace std;
 
 
 //MEMBER VARIABLES
-//int* bestTour;
-
 double bestDistance;									// our EdgeWeight, type is double in Graph.h
-int* orderArr[] ;
-//std::vector<int> orderVec;
+int* orderArr;											// our array we will be using throughout tour()
 std::vector<NodeID> bestTourVec;						// save a vector of best tour route
 std::pair<std::vector<NodeID>, EdgeWeight> solution;	// return var
 
@@ -60,9 +57,10 @@ std::pair<std::vector<NodeID>, EdgeWeight> solution;	// return var
 */
 std::pair<std::vector<NodeID>, EdgeWeight> TSP(Graph* G) {
 		
+	//initialize tour vars
 		bestDistance = 0.0;						
-		std::vector<NodeID> bestTourVec;
-		orderArr[ G->size() ];
+		bestTourVec.resize(G->size());
+		orderArr = new int[G->size()]; 
 		
 
 	/**strategy
@@ -71,12 +69,12 @@ std::pair<std::vector<NodeID>, EdgeWeight> TSP(Graph* G) {
 	// just make an array of the Graph size()
 	
 		for(int i=0; i < G->size(); i++) {
-			 *orderArr[i];
+			 orderArr[i];
 			}
 
 		
 //call tour: (int* arr, int n, int StartingPlace, Graph* g)
-		tour((*orderArr),  G->size(), 0, G);
+		tour((orderArr),  G->size(), 0, G);
 
 	//} //end for
  
@@ -87,7 +85,6 @@ std::pair<std::vector<NodeID>, EdgeWeight> TSP(Graph* G) {
 		return solution;
 
 } // end TSP
-
 
 
 
@@ -129,10 +126,8 @@ void tour(int* arr, int n, int StartingPlace, Graph* G) {
 
 		for (int i = 0; i < (n-1); i++){ 	
 			distance +=  G->weight(arr[i], arr[i+1]);  // edgeWeight between u & v
-			//add end back to beginning as well
-			// distance += G->weight(arr[0], arr[n-1]); 
 			}
-				
+			distance += G->weight(arr[0], arr[n-1]); 	//add end back to beginning as well
 			// or, distance += get_tour_length(G, arr);
 		
 
@@ -142,18 +137,16 @@ void tour(int* arr, int n, int StartingPlace, Graph* G) {
 		
 		curTourVec.resize(0);				// clear our curTourVec in prep for adding the current tour
 
-		for (int i = 0;i < (n); i++){
+		for (int i = 0; i < (n); i++){
 			curTourVec.push_back(arr[i]);	// write current tour
 			}
 		
 	
-		
 		// 3rd
 		//check our distance values					
 			if (distance < bestDistance){	// on 1st iter: dist WILL NOT be less than bestDistance (at 0)
 				 bestDistance = distance;	// save new bestDistance
 				 bestTourVec = curTourVec;	// keep that last path tour ; // use assignment operator 
-				// add 
 			}
 
 		// 4th
@@ -164,8 +157,6 @@ void tour(int* arr, int n, int StartingPlace, Graph* G) {
 		// when do we break out of our tour ?? 
 				//?? return ?? => dont need it, we will fall out and return to TSP when all loops are complete
 			
-
-
 			} else {								// (run thru list and put weights on stack)
 				
 			for (int i = StartingPlace; i <= n; i++){

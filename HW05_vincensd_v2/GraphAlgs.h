@@ -20,6 +20,9 @@
  *     Every pair of nodes u,v  (u != v) has an edge connecting them, with weight > 0.
  */
 
+
+
+//MEMBER METHODS
 std::pair<std::vector<NodeID>, EdgeWeight> TSP(Graph* G);
 
 void tour(int* arr, int n, int StartingPlace, Graph* G);
