@@ -1,7 +1,7 @@
 /*****
  * File		: GraphAlgs.cpp	
  * Author   : Scott Vincent
- * Date     : 2012-28-10
+ * Date     : 2012-2-12
  * Purpose  : This program will perform several duties required for HW05.
  * Sources  : 
 
@@ -34,7 +34,10 @@ double bestDistance;									// our EdgeWeight, type is double in Graph.h
 int* orderArr;											// our array we will be using throughout tour()
 std::vector<NodeID> bestTourVec;						// save a vector of best tour route
 std::pair<std::vector<NodeID>, EdgeWeight> solution;	// return var
-
+//set a default distance 
+		double curDistance;					// set to 0
+// create vectors to hold distances
+		std::vector<NodeID> curTourVec;			// contains the current tour, we'll add the weight
 
 // might be helpful to review
 // http://www.adaptivebox.net/CILib/code/tspcodes_link.html
@@ -58,9 +61,12 @@ std::pair<std::vector<NodeID>, EdgeWeight> solution;	// return var
 std::pair<std::vector<NodeID>, EdgeWeight> TSP(Graph* G) {
 		
 	//initialize tour vars
-		bestDistance = 0.0;						
+		curDistance = 0.0;					// set to 0
+		bestDistance = 10.0;				// set to amount > our largest distance for this exercise		
 		bestTourVec.resize(G->size());
+		curTourVec.resize(G->size());
 		orderArr = new int[G->size()]; 
+		
 		
 
 	/**strategy
@@ -69,12 +75,17 @@ std::pair<std::vector<NodeID>, EdgeWeight> TSP(Graph* G) {
 	// just make an array of the Graph size()
 	
 		for(int i=0; i < G->size(); i++) {
-			 orderArr[i];
+			 orderArr[i] = i;
 			}
 
+		/**Test
+		for(int i=0; i < G->size(); i++) {
+			 cout << orderArr[i];
+			}
+			*/
 		
 //call tour: (int* arr, int n, int StartingPlace, Graph* g)
-		tour((orderArr),  G->size(), 0, G);
+		tour((orderArr),  G->size(), 1, G);
 
 	//} //end for
  
@@ -108,10 +119,10 @@ void tour(int* arr, int n, int StartingPlace, Graph* G) {
 		
 	//strategy
 		//set a default distance 
-		double distance = 0.0;					// set to 0
+		//double distance = 0.0;					// set to 0
 		
 		// create vectors to hold distances
-		std::vector<NodeID> curTourVec;			// contains the current tour, we'll add the weight
+		//std::vector<NodeID> curTourVec;			// contains the current tour, we'll add the weight
 		
 		// our base case to end recusion
 		if (n-StartingPlace == 1) {				// base case
@@ -125,9 +136,9 @@ void tour(int* arr, int n, int StartingPlace, Graph* G) {
 		// loop thru list and add weights for sum
 
 		for (int i = 0; i < (n-1); i++){ 	
-			distance +=  G->weight(arr[i], arr[i+1]);  // edgeWeight between u & v
+			curDistance +=  G->weight(arr[i], arr[i+1]);  // edgeWeight between u & v
 			}
-			distance += G->weight(arr[0], arr[n-1]); 	//add end back to beginning as well
+			curDistance += G->weight(arr[n-1], arr[0]);  //add end back to beginning as well
 			// or, distance += get_tour_length(G, arr);
 		
 
@@ -144,9 +155,10 @@ void tour(int* arr, int n, int StartingPlace, Graph* G) {
 	
 		// 3rd
 		//check our distance values					
-			if (distance < bestDistance){	// on 1st iter: dist WILL NOT be less than bestDistance (at 0)
-				 bestDistance = distance;	// save new bestDistance
-				 bestTourVec = curTourVec;	// keep that last path tour ; // use assignment operator 
+			if (curDistance < bestDistance){	// on 1st iter: dist WILL NOT be less than bestDistance (at 0)
+				 bestDistance = curDistance;	// save new bestDistance
+				  copy(curTourVec.begin(), curTourVec.end(), bestTourVec.begin());   // copy all of vectorObject into vectorObject2
+				// bestTourVec = curTourVec;	// keep that last path tour ; // use assignment operator doesn't work
 			}
 
 		// 4th
@@ -167,7 +179,7 @@ void tour(int* arr, int n, int StartingPlace, Graph* G) {
 				
 				tour (arr, n, StartingPlace +1, G);	// do the recursive call and move Starting Place up one column
 				
-				swap (i, StartingPlace);			// be sure and swap our elements back so that the new,
+				swap (StartingPlace, i);			// be sure and swap our elements back so that the new,
 													// updated starting place will be recursivly called correctly
 	
 			}	//end for
