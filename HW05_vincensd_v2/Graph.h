@@ -24,6 +24,10 @@ typedef unsigned NodeID;
 typedef double EdgeWeight;
 typedef std::pair<NodeID, EdgeWeight> NWPair;
 
+typedef unsigned num;
+typedef double timeRun;
+typedef std::pair<num, timeRun> TimePair;
+
 
 class Graph {
  public:

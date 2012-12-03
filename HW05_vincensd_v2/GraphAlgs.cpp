@@ -34,22 +34,9 @@ double bestDistance;									// our EdgeWeight, type is double in Graph.h
 int* orderArr;											// our array we will be using throughout tour()
 std::vector<NodeID> bestTourVec;						// save a vector of best tour route
 std::pair<std::vector<NodeID>, EdgeWeight> solution;	// return var
-//set a default distance 
-		double curDistance;					// set to 0
-// create vectors to hold distances
-		std::vector<NodeID> curTourVec;			// contains the current tour, we'll add the weight
+double curDistance;					                    // set to 0
+std::vector<NodeID> curTourVec;			                // contains the current tour
 
-// might be helpful to review
-// http://www.adaptivebox.net/CILib/code/tspcodes_link.html
-// nope, way over my head
-
-// ?? what about Dykstras shorest path algorithm ??
-/**Dijkstra's idea: from c++: p443, but it's not really compatible w/ tour
-		3 vectors:
-		int distance [MAX_DISTANCE_SIZE];
-		int path [MAX_PATH_SIZE];
-		vector<bool> included(MAX_INCLUDED_PATH);
-*/
 
 
 /**
@@ -63,9 +50,11 @@ std::pair<std::vector<NodeID>, EdgeWeight> TSP(Graph* G) {
 	//initialize tour vars
 		curDistance = 0.0;					// set to 0
 		bestDistance = 10.0;				// set to amount > our largest distance for this exercise		
+		// create vectors to hold distances
 		bestTourVec.resize(G->size());
-		curTourVec.resize(G->size());
-		orderArr = new int[G->size()]; 
+		curTourVec.resize(G->size());		// contains the current tour, we'll add the weight
+		
+		orderArr = new int[G->size()];		// our all important array
 		
 		
 
@@ -78,7 +67,7 @@ std::pair<std::vector<NodeID>, EdgeWeight> TSP(Graph* G) {
 			 orderArr[i] = i;
 			}
 
-		/**Test
+		/**Test orderArr
 		for(int i=0; i < G->size(); i++) {
 			 cout << orderArr[i];
 			}
@@ -87,7 +76,6 @@ std::pair<std::vector<NodeID>, EdgeWeight> TSP(Graph* G) {
 //call tour: (int* arr, int n, int StartingPlace, Graph* g)
 		tour((orderArr),  G->size(), 1, G);
 
-	//} //end for
  
 		// update our return var
 		//std::pair<std::vector<NodeID>, EdgeWeight> solution;
@@ -118,14 +106,8 @@ std::pair<std::vector<NodeID>, EdgeWeight> TSP(Graph* G) {
 void tour(int* arr, int n, int StartingPlace, Graph* G) {
 		
 	//strategy
-		//set a default distance 
-		//double distance = 0.0;					// set to 0
-		
-		// create vectors to hold distances
-		//std::vector<NodeID> curTourVec;			// contains the current tour, we'll add the weight
-		
 		// our base case to end recusion
-		if (n-StartingPlace == 1) {				// base case
+		if (n-StartingPlace == 1) {					// base case
 
 	
 		// 1st
@@ -138,7 +120,7 @@ void tour(int* arr, int n, int StartingPlace, Graph* G) {
 		for (int i = 0; i < (n-1); i++){ 	
 			curDistance +=  G->weight(arr[i], arr[i+1]);  // edgeWeight between u & v
 			}
-			curDistance += G->weight(arr[n-1], arr[0]);  //add end back to beginning as well
+			curDistance += G->weight(arr[n-1], arr[0]);   //add end back to beginning as well
 			// or, distance += get_tour_length(G, arr);
 		
 
@@ -155,15 +137,15 @@ void tour(int* arr, int n, int StartingPlace, Graph* G) {
 	
 		// 3rd
 		//check our distance values					
-			if (curDistance < bestDistance){	// on 1st iter: dist WILL NOT be less than bestDistance (at 0)
+			if (curDistance < bestDistance){	// on 1st iter: dist WILL be less than bestDistance (which I set @ 10)
 				 bestDistance = curDistance;	// save new bestDistance
-				  copy(curTourVec.begin(), curTourVec.end(), bestTourVec.begin());   // copy all of vectorObject into vectorObject2
+				  copy(curTourVec.begin(), curTourVec.end(), bestTourVec.begin());   // copy that last path tour ;
+																					 //http://www.java2s.com/Code/Cpp/Data-Structure/UsingcopyinVector.htm			
 				// bestTourVec = curTourVec;	// keep that last path tour ; // use assignment operator doesn't work
 			}
 
 		// 4th
 		// next tour is run
-
 
 		// 5th
 		// when do we break out of our tour ?? 

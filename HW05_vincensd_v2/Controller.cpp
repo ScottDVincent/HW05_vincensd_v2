@@ -81,6 +81,13 @@ void testSingleTSP(StarbucksMap& SB, int size, bool use_matrix) {
 pair<int,int> testSpeedTSP(StarbucksMap& SB, double time_limit, bool use_matrix) {
 	int n = 3;
 	int totalTime = 0;
+	
+	/** code for graphing
+	//std::pair<num, timeRun> TimePair;
+	//vector<TimePair> timePairVec;
+	*/
+    vector< pair<int, int>> timePairVec; // code for graphing
+	
 	while (true) {
 		  vector<Store> R = SB.randomSet(n);
 		  Graph* G = createStarbucksGraph(R, use_matrix);
@@ -89,11 +96,15 @@ pair<int,int> testSpeedTSP(StarbucksMap& SB, double time_limit, bool use_matrix)
 		  pair<vector<NodeID>, EdgeWeight> p = TSP(G);
 		  int newTime = timeGetTime() - startTime;
 		  cout << "TSP Speed: Finished " << n << " cities in " << newTime/1000.0 << " seconds." << endl;
+		  
+		  timePairVec.push_back( std::make_pair( n, (newTime/1000.0) )); //code for graphing
+		 
 		  if (newTime/1000.0 > time_limit)
 			  break;
 		  totalTime = newTime;
 		  n++;
 	}
+	
 	return make_pair(n,totalTime);
 }
 
